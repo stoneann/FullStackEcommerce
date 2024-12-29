@@ -5,7 +5,10 @@ import ProductListItem from "../components/ProductListItem";
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <FlatList data={products} renderItem={({ item }) => (
+      <FlatList data={products}
+                numColumns={2}
+                contentContainerClassName="gap-2"
+                renderItem={({ item }) => (
           <ProductListItem product={item} />
             )} />
     </View>
