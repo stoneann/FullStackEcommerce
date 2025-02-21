@@ -9,6 +9,7 @@ import {Button, ButtonText} from "@/components/ui/button";
 import {Card} from "@/components/ui/card";
 import {useQuery} from "@tanstack/react-query";
 import {fetchProductById} from "@/api/products";
+import {useCart} from "@/store/cartStore";
 
 export default function ProductDetailsScreen() {
     const {id} = useLocalSearchParams<{id: string}>();
@@ -18,6 +19,14 @@ export default function ProductDetailsScreen() {
         queryKey: ['products', id],
         queryFn: () => fetchProductById(Number(id)),
     });
+
+    // @ts-ignore
+    const addProduct = useCart(state => state.addProduct);
+
+    const addToCart = () => {
+        console.log("addToCart");
+        addProduct(product);
+    }
 
     if (isLoading) return <Text>Loading...</Text>;
     if (error) return <Text>Product not found</Text>;
@@ -57,7 +66,7 @@ export default function ProductDetailsScreen() {
                     <Button
                         className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1"
                     >
-                        <ButtonText size="sm">Add to cart</ButtonText>
+                        <ButtonText size="sm" onPress={addToCart}>Add to cart</ButtonText>
                     </Button>
                     <Button
                         variant="outline"
