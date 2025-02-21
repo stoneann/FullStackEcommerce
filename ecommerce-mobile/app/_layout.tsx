@@ -8,18 +8,9 @@ import "@/global.css";
 export default function RootLayout() {
     return (
         <GluestackUIProvider mode="light">
-            <View style={styles.container}>
-                <Stack />
-            </View>
+                <Stack>
+                    {/*<Stack.Screen name={} />*/}
+                </Stack>
         </GluestackUIProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});

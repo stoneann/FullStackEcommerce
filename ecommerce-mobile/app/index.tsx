@@ -1,39 +1,24 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import {StyleSheet, Text, View, FlatList, useWindowDimensions} from "react-native";
 import products from '../assets/products.json';
 import ProductListItem from "../components/ProductListItem";
+import {useBreakpointValue} from "@/components/ui/utils/use-break-point-value";
 
 export default function HomeScreen() {
+  // Also look into useMediaQuery
+  const numColumns = useBreakpointValue({
+      default: 2,
+      sm: 3,
+      xl: 4,
+  })
+
   return (
-    <View style={styles.container}>
       <FlatList data={products}
-                numColumns={2}
-                contentContainerClassName="gap-2"
+                key={numColumns}
+                numColumns={numColumns}
+                contentContainerClassName="gap-2 max-w-[960px] mx-auto w-full"
                 columnWrapperClassName="gap-2"
                 renderItem={({ item }) => (
           <ProductListItem product={item} />
             )} />
-    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 24,
-  },
-  main: {
-    flex: 1,
-    justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
-  },
-});
