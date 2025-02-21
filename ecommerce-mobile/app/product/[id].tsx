@@ -7,11 +7,20 @@ import {Heading} from "@/components/ui/heading";
 import {Box} from "@/components/ui/box";
 import {Button, ButtonText} from "@/components/ui/button";
 import {Card} from "@/components/ui/card";
+import {useQuery} from "@tanstack/react-query";
+import {fetchProductById} from "@/api/products";
 
 export default function ProductDetailsScreen() {
     const {id} = useLocalSearchParams<{id: string}>();
+    // TanStack query will cache results so if the you revisit a page it won't resend the api request
+    const {data: product, isLoading, error} = useQuery({
+        // what identifies this reqest as unique
+        queryKey: ['products', id],
+        queryFn: () => fetchProductById(Number(id)),
+    });
 
-    const product = products.find((product) => product.id === Number(id));
+    if (isLoading) return <Text>Loading...</Text>;
+    if (error) return <Text>Product not found</Text>;
 
     if (!product) {
         return <Text>No product found!</Text>;
